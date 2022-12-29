@@ -1,0 +1,27 @@
+
+from sense_hat import SenseHat
+import time
+sense = SenseHat()
+
+# Set up the LED matrix
+sense.clear()
+
+# Initialize the character's position
+x = 3
+y = 3
+
+while True:
+  # Get the tilt of the Raspberry Pi
+  acceleration = sense.get_accelerometer_raw()
+  x += acceleration['x']
+  y += acceleration['y']
+
+  # Keep the character within the bounds of the LED matrix
+  x = (max(0, min(7, x)))
+  y = (max(0, min(7, y)))
+  print(x,y)
+  print(int(x),int(y))
+  time.sleep(0.1)
+  # Clear the LED matrix and draw the character
+  sense.clear()
+  sense.set_pixel(int(x), int(y), (255, 255, 255))
